@@ -9,7 +9,7 @@ import {
   CLEAR_ERRORS
 } from '../types';
 
-export default (action, state) => {
+export default (state, action) => {
   switch (action.type) {
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -38,6 +38,7 @@ export default (action, state) => {
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
+    case LOGOUT:
       localStorage.removeItem('token');
       return {
         ...state,

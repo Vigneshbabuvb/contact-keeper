@@ -8,7 +8,9 @@ const Home = () => {
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
-    authContext.loadUser();
+    if (localStorage.token) {
+      authContext.loadUser();
+    }
     //eslint-disable-next-line
   }, []);
 

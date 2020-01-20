@@ -19,8 +19,8 @@ const AuthState = props => {
     token: localStorage.getItem('token'),
     isAuthenticated: null,
     loading: true,
-    user: null,
-    error: null
+    error: null,
+    user: null
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -33,14 +33,14 @@ const AuthState = props => {
 
     try {
       const res = await axios.get('/api/auth');
-
       dispatch({
         type: USER_LOADED,
         payload: res.data
       });
     } catch (err) {
       dispatch({
-        type: AUTH_ERROR
+        type: AUTH_ERROR,
+        payload: err.response.data.msg
       });
     }
   };
@@ -55,12 +55,12 @@ const AuthState = props => {
 
     try {
       const res = await axios.post('/api/users', formData, config);
+
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
       });
-
-      loadUser();
+      //loadUser();
     } catch (err) {
       dispatch({
         type: REGISTER_FAIL,
@@ -68,6 +68,7 @@ const AuthState = props => {
       });
     }
   };
+
   //Login User
   const login = async formData => {
     const config = {
@@ -82,7 +83,6 @@ const AuthState = props => {
         type: LOGIN_SUCCESS,
         payload: res.data
       });
-
       loadUser();
     } catch (err) {
       dispatch({
@@ -93,7 +93,7 @@ const AuthState = props => {
   };
 
   //Logout
-  const logout = () => console.log('Logout');
+  const logout = () => dispatch({ type: LOGOUT });
 
   //Clear Errors
   const clearErrors = () =>
